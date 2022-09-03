@@ -1,68 +1,88 @@
 const loadCategory = async () => {
-    const url = `https://openapi.programming-hero.com/api/news/categories`
-    const res = await fetch(url);
-    const data = await res.json();
-    displayCategory(data.data.news_category)
+  const url = `https://openapi.programming-hero.com/api/news/categories`
+  const res = await fetch(url);
+  const data = await res.json();
+  displayCategory(data.data.news_category)
 }
 
 const displayCategory = names => {
-    const nameContainer = document.getElementById('name-container');
-    names.forEach(name => {
-        const nameDiv = document.createElement('div');
-        nameDiv.innerHTML =` 
+  const nameContainer = document.getElementById('name-container');
+  names.forEach(name => {
+    const nameDiv = document.createElement('div');
+    nameDiv.innerHTML = ` 
         <button onclick="loadCategoryDetailes('${name.category_id}')" class="btn btn-light text-secondary">${name.category_name}</button>
         `;
-        nameContainer.appendChild(nameDiv);
-    });
+    nameContainer.appendChild(nameDiv);
+  });
 }
-  const loadCategoryDetailes = async id => {
-    const url = `https://openapi.programming-hero.com/api/news/category/${id}`
-    const res = await fetch(url);
-    const data = await res.json();
-    displayCategoryDetails(data.data);
-  }
+const loadCategoryDetailes = async id => {
+  const url = `https://openapi.programming-hero.com/api/news/category/${id}`
+  const res = await fetch(url);
+  const data = await res.json();
+  displayCategoryDetails(data.data);
+}
 
-  const displayCategoryDetails = categories => {
-    // console.log(categories);
-    const categoryContainer = document.getElementById('category-container');
-    categories.forEach(category => {
-        const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add('row');
-        categoryDiv.innerHTML= `
-        <div class="col-md-4">
-                    <img src="${category.image_url}" class="img-fluid rounded-start" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">${category.title}</h5>
-                      <p class="card-text">${category.details}</p>
-                      
-                    </div>
-                    <div class="card-footer border border-0">
-                        <div class="d-flex justify-content-evenly p-3">
-                            <div class="d-flex">
-                                <div>
-                                    <img src="" class="img-thumbnail rounded" alt="...">
-                                </div>
-                                <div>
-                                    <h5>${category.author.name}</h5>
-                                <small>${category.author.published_date}</small>
-                                </div>
-                            </div>
-                            <div>
-                                <i class="fa-regular fa-eye fw-bold"> ${category.total_view}</i>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary">Show Details</button>
-                            </div>
+const displayCategoryDetails = categories => {
+  console.log(categories);
+  const categoryContainer = document.getElementById('category-container');
+  categories.forEach(category => {
+    const categoryDiv = document.createElement('div');
+    categoryDiv.classList.add('p-3');
+    categoryDiv.innerHTML = `
+    <div class="rounded-4 row">
+        
+    <div class="col-3">
+        <img src="${category.thumbnail_url}" alt="">
+    </div>
+
+    <!-- details -->
+    <div class="col-9">
+
+        <!-- Tittle -->
+        <h3 class="fw-semibold">${category.title}</h3>
+        <p class="text-muted">
+            ${category.details}
+        </p>
+
+        <div class="">
+            <div class="row d-flex justify-content-between">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-3 ">
+                            <img class="img-fluid rounded-circle" src="${category.author.img}" alt="">
                         </div>
-                      </div>
-                  </div>
+                        <div class="col-9">
+                            <h6>
+                                ${category.author.name}
+                            </h6>
+                            <p>
+                            ${category.author.published_date}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-center">
+                    <p class="fw-semibold"><i class="fa-regular fa-eye"></i>${category.total_view}</p>
+                </div>
+                <div class="col d-flex align-items-center">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <div class="col d-flex align-items-center">
+                    <button class="fw-bold btn btn-info">Show Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         `;
-        categoryContainer.appendChild(categoryDiv);
-    })
+    categoryContainer.appendChild(categoryDiv);
+  })
 
-  }
+}
 
 
 loadCategory();
