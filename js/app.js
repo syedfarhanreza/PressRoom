@@ -55,12 +55,12 @@ const displayCategoryDetails = categories => {
     categoryDiv.innerHTML = `
     <div class="rounded-4 row">
         
-    <div class="col-3">
+    <div class="col-xl-3">
         <img src="${category.thumbnail_url}" alt="">
     </div>
 
     <!-- details -->
-    <div class="col-9">
+    <div class="col-xl-9">
 
         <!-- Tittle -->
         <h3 class="fw-semibold">${category.title}</h3>
