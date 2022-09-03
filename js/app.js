@@ -24,7 +24,7 @@ const loadCategoryDetailes = async id => {
 }
 
 const displayCategoryDetails = categories => {
-  console.log(categories);
+  // console.log(categories);
   const categoryContainer = document.getElementById('category-container');
   categoryContainer.textContent = '';
   categories.forEach(category => {
@@ -42,7 +42,7 @@ const displayCategoryDetails = categories => {
 
         <!-- Tittle -->
         <h3 class="fw-semibold">${category.title}</h3>
-        <p class="text-muted">
+        <p class="text-muted d-inline-block text-truncate" style="max-width: 800px;" >
             ${category.details}
         </p>
 
@@ -104,15 +104,18 @@ const showDetails = async news_id => {
 }
 
 const displayShowDetails = showNews => {
-  console.log(showNews)
+  // console.log(showNews)
   const modalTitle = document.getElementById('categoryModalLabel');
   modalTitle.innerText = showNews[0].title;
   const newsDetails = document.getElementById('news-details');
   newsDetails.innerHTML = `
   <p>${showNews[0].details ? showNews[0].details: 'no news found'}</p>
-  <small class="fw-bold">Author Name: ${showNews[0].author.name ? showNews[0].author.name: 'no author found'}</small>
+  <small class="fw-bold">Author Name: ${showNews[0].author.name ? showNews[0].author.name: 'no author found'}</small><br>
+  <small class="fw-bold">View: ${showNews[0].total_view ? showNews[0].total_view: 'no view'}</small>
   `
-}
-
+};
+// tooltip
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 loadCategory();
