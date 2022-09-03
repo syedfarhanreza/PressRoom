@@ -25,6 +25,7 @@ const loadCategoryDetailes = async id => {
 const displayCategoryDetails = categories => {
   console.log(categories);
   const categoryContainer = document.getElementById('category-container');
+  categoryContainer.textContent = '';
   categories.forEach(category => {
     const categoryDiv = document.createElement('div');
     categoryDiv.classList.add('p-3');
@@ -72,7 +73,7 @@ const displayCategoryDetails = categories => {
                     <i class="fa-regular fa-star"></i>
                 </div>
                 <div class="col d-flex align-items-center">
-                    <button class="fw-bold btn btn-info">Show Details</button>
+                    <button onclick="showDetails('${category._id}')" class="fw-bold btn btn-info" data-bs-toggle="modal" data-bs-target="#categoryModal">Show Details</button>
                 </div>
             </div>
         </div>
@@ -82,6 +83,24 @@ const displayCategoryDetails = categories => {
     categoryContainer.appendChild(categoryDiv);
   })
 
+}
+
+const showDetails = async news_id => {
+  const url =` https://openapi.programming-hero.com/api/news/${news_id}`
+  const res = await fetch(url);
+  const data = await res.json();
+  displayShowDetails(data.data);
+}
+
+const displayShowDetails = showNews => {
+  console.log(showNews)
+  const modalTitle = document.getElementById('categoryModalLabel');
+  modalTitle.innerText = showNews[0].title;
+  const newsDetails = document.getElementById('news-details');
+  newsDetails.innerHTML = `
+  <p>${showNews[0].details ? showNews[0].details: 'no news found'}</p>
+  <small>Author Name: ${showNews[0].author.name ? showNews[0].author.name: 'no author found'}</small>
+  `
 }
 
 
