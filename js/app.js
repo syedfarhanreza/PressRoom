@@ -16,6 +16,7 @@ const displayCategory = names => {
   });
 }
 const loadCategoryDetailes = async id => {
+  toggleSpinner(true);
   const url = `https://openapi.programming-hero.com/api/news/category/${id}`
   const res = await fetch(url);
   const data = await res.json();
@@ -82,7 +83,17 @@ const displayCategoryDetails = categories => {
         `;
     categoryContainer.appendChild(categoryDiv);
   })
-
+  //    stop spinner or loader
+  toggleSpinner(false);
+}
+const toggleSpinner = isLoading => {
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+      loaderSection.classList.remove('d-none');
+  }
+  else{
+      loaderSection.classList.add('d-none');
+  }  
 }
 
 const showDetails = async news_id => {
@@ -99,7 +110,7 @@ const displayShowDetails = showNews => {
   const newsDetails = document.getElementById('news-details');
   newsDetails.innerHTML = `
   <p>${showNews[0].details ? showNews[0].details: 'no news found'}</p>
-  <small>Author Name: ${showNews[0].author.name ? showNews[0].author.name: 'no author found'}</small>
+  <small class="fw-bold">Author Name: ${showNews[0].author.name ? showNews[0].author.name: 'no author found'}</small>
   `
 }
 
