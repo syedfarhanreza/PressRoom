@@ -1,8 +1,15 @@
+const noDataError = document.getElementById('noDataError');
 const loadCategory = async () => {
   const url = `https://openapi.programming-hero.com/api/news/categories`
-  const res = await fetch(url);
-  const data = await res.json();
-  displayCategory(data.data.news_category)
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+    displayCategory(data.data.news_category);
+  }
+  catch (error){
+    console.log(error);
+  }
+
 }
 
 const displayCategory = names => {
@@ -17,17 +24,29 @@ const displayCategory = names => {
 }
 const loadCategoryDetailes = async id => {
   toggleSpinner(true);
-  const url = `https://openapi.programming-hero.com/api/news/category/${id}`
-  const res = await fetch(url);
-  const data = await res.json();
-  displayCategoryDetails(data.data);
+  try{
+    const url = `https://openapi.programming-hero.com/api/news/category/${id}`
+    const res = await fetch(url);
+    const data = await res.json();
+    displayCategoryDetails(data.data);
+    if (data.data.length == 0) {
+      // alert('No Data Found');
+      noDataError.innerText = "No Data Found"
+  } else {
+      noDataError.innerText = "";
+  }
+  }
+  catch (error){
+    console.log(error);
+  }
+ 
 }
 
 const displayCategoryDetails = categories => {
   // console.log(categories);
   const categoryContainer = document.getElementById('category-container');
   categoryContainer.textContent = '';
-  categories.forEach(category => {
+  categories.sort((a,b) => b.total_view - a.total_view).forEach(category => {
     const categoryDiv = document.createElement('div');
     categoryDiv.classList.add('p-3');
     categoryDiv.innerHTML = `
@@ -97,10 +116,16 @@ const toggleSpinner = isLoading => {
 }
 
 const showDetails = async news_id => {
-  const url =` https://openapi.programming-hero.com/api/news/${news_id}`
-  const res = await fetch(url);
-  const data = await res.json();
-  displayShowDetails(data.data);
+  try{
+    const url =` https://openapi.programming-hero.com/api/news/${news_id}`
+    const res = await fetch(url);
+    const data = await res.json();
+    displayShowDetails(data.data);
+  }
+  catch (error){
+    console.log(error);
+  }
+
 }
 
 const displayShowDetails = showNews => {
@@ -114,8 +139,6 @@ const displayShowDetails = showNews => {
   <small class="fw-bold">View: ${showNews[0].total_view ? showNews[0].total_view: 'no view'}</small>
   `
 };
-// tooltip
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 
 loadCategory();
