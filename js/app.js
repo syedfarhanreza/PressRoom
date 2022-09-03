@@ -1,4 +1,7 @@
 const noDataError = document.getElementById('noDataError');
+
+const totalNews = document.getElementById('items');
+
 const loadCategory = async () => {
   const url = `https://openapi.programming-hero.com/api/news/categories`
   try{
@@ -104,6 +107,9 @@ const displayCategoryDetails = categories => {
   })
   //    stop spinner or loader
   toggleSpinner(false);
+  totalNews.innerHTML = `
+    <h4 class="border-bottom p-3 rounded">${categories.length} items found for category Entertainment</h4>
+     `;
 }
 const toggleSpinner = isLoading => {
   const loaderSection = document.getElementById('loader');
